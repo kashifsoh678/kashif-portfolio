@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { 
+import {
   SiReact, SiTypescript, SiNextdotjs, SiTailwindcss,
   SiNodedotjs, SiExpress, SiMongodb, SiPostgresql,
   SiDocker, SiGit, SiAmazon, SiRedis, SiNestjs, SiPrisma,
@@ -109,7 +109,7 @@ export const SkillsSection = () => {
   }, []);
 
   return (
-    <section id="skills" ref={sectionRef} className="section-padding relative">
+    <section id="skills" ref={sectionRef} className="relative ">
       {/* Background Decoration */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute top-1/2 left-0 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
@@ -137,9 +137,8 @@ export const SkillsSection = () => {
               key={category.title}
               className="glass-card-hover rounded-2xl p-8"
             >
-              <h3 className={`text-2xl font-bold mb-6 ${
-                category.color === 'primary' ? 'text-primary' : 'text-accent'
-              }`}>
+              <h3 className={`text-2xl font-bold mb-6 ${category.color === 'primary' ? 'text-primary' : 'text-accent'
+                }`}>
                 {category.title}
               </h3>
               <div className="space-y-6">
@@ -156,11 +155,10 @@ export const SkillsSection = () => {
                     </div>
                     <div className="h-2 bg-secondary rounded-full overflow-hidden">
                       <div
-                        className={`skill-progress h-full rounded-full ${
-                          category.color === 'primary'
-                            ? 'bg-gradient-to-r from-primary to-primary/70'
-                            : 'bg-gradient-to-r from-accent to-accent/70'
-                        }`}
+                        className={`skill-progress h-full rounded-full ${category.color === 'primary'
+                          ? 'bg-gradient-to-r from-primary to-primary/70'
+                          : 'bg-gradient-to-r from-accent to-accent/70'
+                          }`}
                         data-level={skill.level}
                       />
                     </div>
