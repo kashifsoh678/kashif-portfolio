@@ -34,24 +34,25 @@ export const AboutSection = () => {
           {/* Image */}
           <div className="relative group">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-2xl blur-2xl group-hover:blur-3xl transition-all duration-500 opacity-60" />
-            <div className="relative glass-card rounded-2xl p-2 overflow-hidden">
-              <div className="aspect-square bg-gradient-to-br from-primary/10 to-accent/10 rounded-xl flex items-center justify-center">
-                <div className="text-center p-8">
-                  <div className="w-32 h-32 mx-auto mb-6 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-5xl font-bold text-primary-foreground">
-                    KS
-                  </div>
-                  <p className="text-muted-foreground text-sm">MERN Stack Developer</p>
-                </div>
+            <div className="relative glass-card rounded-2xl p-2 overflow-hidden shadow-2xl">
+              <div className="aspect-square bg-gradient-to-br from-primary/10 to-accent/10 rounded-xl overflow-hidden relative">
+                <video
+                  src="/video/portfolio-clip.webm"
+                  autoPlay
+                  muted
+                  // loop
+                  playsInline
+                  controls
+                  className="w-full h-full object-contain object-center rounded-xl"
+                />
               </div>
             </div>
 
             {/* Floating Elements */}
             <div className="absolute -top-4 -right-4 px-4 py-2 glass-card rounded-lg animate-float">
-              <span className="text-primary font-semibold">4+ Years Experience</span>
+              <span className="text-primary font-semibold">5+ Years Experience</span>
             </div>
-            <div className="absolute -bottom-4 -left-4 px-4 py-2 glass-card rounded-lg animate-float animation-delay-400">
-              <span className="text-accent font-semibold">BS Computer Science</span>
-            </div>
+
           </div>
 
           {/* Content */}
