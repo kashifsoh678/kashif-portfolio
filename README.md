@@ -1,4 +1,4 @@
-# Welcome to your Lovable project
+# kashif-portfolio
 
 ## Project info
 
