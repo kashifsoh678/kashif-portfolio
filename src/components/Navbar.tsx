@@ -14,14 +14,40 @@ const navLinks = [
 export const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('');
   const { theme, toggleTheme } = useTheme();
 
+  // Scroll detection for glass effect
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Active section via IntersectionObserver
+  useEffect(() => {
+    const sectionIds = navLinks.map((l) => l.href.replace('#', ''));
+    const observers: IntersectionObserver[] = [];
+
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setActiveSection(id);
+          }
+        },
+        { threshold: 0.3, rootMargin: '-80px 0px -60% 0px' }
+      );
+      observer.observe(el);
+      observers.push(observer);
+    });
+
+    return () => observers.forEach((o) => o.disconnect());
   }, []);
 
   const scrollToSection = (href: string) => {
@@ -36,28 +62,38 @@ export const Navbar = () => {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-background/80 backdrop-blur-xl border-b border-border/50'
+          ? 'bg-background/85 backdrop-blur-xl border-b border-border/50 shadow-lg shadow-black/5'
           : 'bg-transparent'
       }`}
     >
       <div className="container-custom mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <a href="#" className="text-2xl font-bold gradient-text">
+          <a href="#" className="text-2xl font-bold gradient-text tracking-tight">
             KS<span className="text-foreground">.</span>
           </a>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <button
-                key={link.name}
-                onClick={() => scrollToSection(link.href)}
-                className="text-muted-foreground hover:text-primary transition-colors duration-300 text-sm font-medium"
-              >
-                {link.name}
-              </button>
-            ))}
+            {navLinks.map((link) => {
+              const isActive = activeSection === link.href.replace('#', '');
+              return (
+                <button
+                  key={link.name}
+                  onClick={() => scrollToSection(link.href)}
+                  className={`relative text-sm font-medium transition-colors duration-300 group ${
+                    isActive ? 'text-primary' : 'text-muted-foreground hover:text-primary'
+                  }`}
+                >
+                  {link.name}
+                  <span
+                    className={`absolute -bottom-1 left-0 h-0.5 bg-primary rounded-full transition-all duration-300 ${
+                      isActive ? 'w-full' : 'w-0 group-hover:w-full'
+                    }`}
+                  />
+                </button>
+              );
+            })}
             <button
               onClick={toggleTheme}
               className="p-2 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors"
@@ -71,7 +107,7 @@ export const Navbar = () => {
             </button>
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Controls */}
           <div className="flex items-center gap-4 md:hidden">
             <button
               onClick={toggleTheme}
@@ -98,22 +134,31 @@ export const Navbar = () => {
           </div>
         </div>
 
-        {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden mt-4 pb-4 border-t border-border/50 pt-4">
-            <div className="flex flex-col gap-4">
-              {navLinks.map((link) => (
+        {/* Mobile Menu — animated slide down */}
+        <div
+          className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+            isMobileMenuOpen ? 'max-h-96 opacity-100 mt-4 pb-4' : 'max-h-0 opacity-0'
+          }`}
+        >
+          <div className="border-t border-border/50 pt-4 flex flex-col gap-1">
+            {navLinks.map((link) => {
+              const isActive = activeSection === link.href.replace('#', '');
+              return (
                 <button
                   key={link.name}
                   onClick={() => scrollToSection(link.href)}
-                  className="text-muted-foreground hover:text-primary transition-colors text-left py-2"
+                  className={`text-left px-4 py-3 rounded-lg transition-all duration-200 ${
+                    isActive
+                      ? 'text-primary bg-primary/10 font-medium'
+                      : 'text-muted-foreground hover:text-primary hover:bg-secondary/50'
+                  }`}
                 >
                   {link.name}
                 </button>
-              ))}
-            </div>
+              );
+            })}
           </div>
-        )}
+        </div>
       </div>
     </nav>
   );

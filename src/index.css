@@ -166,6 +166,14 @@
   .animation-delay-600 {
     animation-delay: 600ms;
   }
+
+  .scale-102 {
+    transform: scale(1.02);
+  }
+
+  .hover\:scale-102:hover {
+    transform: scale(1.02);
+  }
 }
 
 /* Scrollbar styling for dark theme */
