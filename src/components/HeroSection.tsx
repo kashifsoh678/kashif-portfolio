@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowDown, Github, Linkedin, Mail, Download, Briefcase, Code2, Star } from 'lucide-react';
 
 const roles = [
@@ -74,6 +75,11 @@ export const HeroSection = () => {
   const socialRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLDivElement>(null);
+  
+  // Parallax refs
+  const blob1Ref = useRef<HTMLDivElement>(null);
+  const blob2Ref = useRef<HTMLDivElement>(null);
+  const rightColRef = useRef<HTMLDivElement>(null);
 
   const [displayedRole, setDisplayedRole] = useState('');
   const [roleIndex, setRoleIndex] = useState(0);
@@ -132,6 +138,40 @@ export const HeroSection = () => {
           { y: 0, opacity: 1, stagger: 0.1, duration: 0.5 },
           '-=0.2'
         );
+
+      // Parallax Effects
+      gsap.to(blob1Ref.current, {
+        y: 200,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true,
+        },
+      });
+
+      gsap.to(blob2Ref.current, {
+        y: -150,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true,
+        },
+      });
+
+      gsap.to(rightColRef.current, {
+        y: 80,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true,
+        },
+      });
     }, heroRef);
 
     return () => ctx.revert();
@@ -148,8 +188,8 @@ export const HeroSection = () => {
     >
       {/* Background theme blobs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] animate-pulse-glow" />
-        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-accent/10 rounded-full blur-[100px] animate-pulse-glow animation-delay-400" />
+        <div ref={blob1Ref} className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] animate-pulse-glow" />
+        <div ref={blob2Ref} className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-accent/10 rounded-full blur-[100px] animate-pulse-glow animation-delay-400" />
       </div>
 
       {/* Grid pattern overlay */}
@@ -248,11 +288,12 @@ export const HeroSection = () => {
           </div>
 
           {/* ── Right Column (3D Profile Image & Stats) ── */}
-          <div ref={imgRef} className="order-1 lg:order-2 flex flex-col items-center gap-10">
-
+          <div ref={rightColRef} className="order-1 lg:order-2 flex flex-col items-center gap-10">
+            
             {/* 3D Interactive Photo */}
-            <TiltContainer className="relative w-56 h-56 sm:w-72 sm:h-72 md:w-80 md:h-80 cursor-pointer">
-              {/* Outer massive glow ring */}
+            <div ref={imgRef}>
+              <TiltContainer className="relative w-56 h-56 sm:w-72 sm:h-72 md:w-80 md:h-80 cursor-pointer">
+                {/* Outer massive glow ring */}
               <div
                 className="absolute inset-[-10%] rounded-full opacity-60 blur-2xl scale-110 animate-pulse-glow"
                 style={{ background: 'linear-gradient(135deg, hsl(var(--primary)/0.4), hsl(var(--accent)/0.4))' }}
@@ -273,6 +314,7 @@ export const HeroSection = () => {
               {/* Floating tech badges (Popping out in 3D) */}
 
             </TiltContainer>
+            </div>
 
             {/* Stats bar (Responsive flex wrap) */}
             <div ref={statsRef} className="flex flex-wrap justify-center gap-3 sm:gap-4 md:gap-6 w-full px-4 sm:px-0">

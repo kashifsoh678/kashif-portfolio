@@ -4,23 +4,23 @@ import { Code2, Zap, Layers, Users } from 'lucide-react';
 const strengths = [
   {
     icon: Code2,
-    title: 'MERN Stack Expertise',
-    description: 'Deep knowledge in MongoDB, Express.js, React, and Node.js for end-to-end development.',
+    title: 'Full-Stack Mastery',
+    description: 'Architecting robust, end-to-end solutions using the MERN ecosystem (MongoDB, Express.js, React, Node.js) and Next.js.',
   },
   {
     icon: Layers,
-    title: 'Clean Architecture',
-    description: 'Building maintainable, scalable codebases with solid design patterns and best practices.',
+    title: 'System Architecture',
+    description: 'Designing highly scalable, maintainable codebases utilizing advanced design patterns and microservices.',
   },
   {
     icon: Zap,
-    title: 'Performance Optimization',
-    description: 'Delivering blazing-fast applications through code splitting, caching, and efficient algorithms.',
+    title: 'High-Performance Engineering',
+    description: 'Optimizing web vitals and latency through advanced caching, code-splitting, and database query optimization.',
   },
   {
     icon: Users,
-    title: 'User-Centric Design',
-    description: 'Creating intuitive interfaces that provide exceptional user experiences.',
+    title: 'Flawless UX Implementation',
+    description: 'Translating complex logic into intuitive, pixel-perfect interfaces with fluid micro-interactions and accessibility.',
   },
 ];
 
@@ -90,7 +90,7 @@ export const AboutSection = () => {
         </div>
 
         {/* Strengths Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-20">
+        <div className="grid sm:grid-cols-2  gap-4 mt-20">
           {strengths.map((strength, index) => (
             <div
               key={strength.title}
