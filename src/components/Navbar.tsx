@@ -29,25 +29,25 @@ export const Navbar = () => {
   // Active section via IntersectionObserver
   useEffect(() => {
     const sectionIds = navLinks.map((l) => l.href.replace('#', ''));
-    const observers: IntersectionObserver[] = [];
+    
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      // Trigger when a section enters the middle 40% of the viewport
+      { threshold: 0.2, rootMargin: '-20% 0px -40% 0px' }
+    );
 
     sectionIds.forEach((id) => {
       const el = document.getElementById(id);
-      if (!el) return;
-
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            setActiveSection(id);
-          }
-        },
-        { threshold: 0.3, rootMargin: '-80px 0px -60% 0px' }
-      );
-      observer.observe(el);
-      observers.push(observer);
+      if (el) observer.observe(el);
     });
 
-    return () => observers.forEach((o) => o.disconnect());
+    return () => observer.disconnect();
   }, []);
 
   const scrollToSection = (href: string) => {
